@@ -65,3 +65,16 @@ Hero* GermanFactory::Leader() {
 	return leader_;
 }
 
+
+AbstractFactory* getFactory (const std::string& fraction) {
+	if (fraction == "France") {
+		return new FrenchFactory();
+	} else if (fraction == "England") {
+		return new EnglishFactory();
+	} else if (fraction == "Germany") {
+		return new GermanFactory();
+	} else {
+		throw std::runtime_error ("unknown fraction");
+	}
+}
+

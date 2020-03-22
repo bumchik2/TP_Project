@@ -13,7 +13,7 @@ public:
 	virtual ~AbstractFactory();
 
 	Soldier* createUnit (const std::string& unit_type);
-	virtual Hero* Leader() { return 0; }
+	virtual Hero* Leader() = 0;
 
 protected:
 	std::vector<Soldier*> units_;
@@ -51,15 +51,5 @@ private:
 };
 
 
-static AbstractFactory* getFactory (const std::string& fraction) {
-	if (fraction == "France") {
-		return new FrenchFactory();
-	} else if (fraction == "England") {
-		return new EnglishFactory();
-	} else if (fraction == "Germany") {
-		return new GermanFactory();
-	} else {
-		throw std::runtime_error ("unknown fraction");
-	}
-}
+AbstractFactory* getFactory (const std::string& fraction);
 

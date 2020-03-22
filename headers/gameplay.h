@@ -4,6 +4,7 @@
 #include "helper_functions.h"
 #include "fractions.h"
 #include "army_factory.h"
+#include "heroes.h"
 
 
 #include <unistd.h>
