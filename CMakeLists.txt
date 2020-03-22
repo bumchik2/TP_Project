@@ -6,6 +6,12 @@ project(project)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
-add_executable(main src/main.cpp src/ArmyFactory.cpp src/Soldier.cpp src/Units.cpp)
+add_executable(main 
+	src/main.cpp 
+	src/ArmyFactory.cpp 
+	src/Soldier.cpp 
+	src/Units.cpp 
+	src/Heroes.cpp
+)
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/headers)
