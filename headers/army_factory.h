@@ -51,5 +51,15 @@ private:
 };
 
 
+class FactoryCacher {
+public:
+	AbstractFactory* getFactory(const std::string& fraction);
+private:
+	FrenchFactory* french_factory_ = 0;
+	EnglishFactory* english_factory_ = 0;
+	GermanFactory* german_factory_ = 0;
+};
+
+
 AbstractFactory* getFactory (const std::string& fraction);
 

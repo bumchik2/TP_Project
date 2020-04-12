@@ -5,7 +5,7 @@
 
 #include <string>
 #include <vector>
-
+#include <iostream>
 
 AbstractFactory::AbstractFactory (const std::string& fraction) : fraction_(fraction) { }
 
@@ -66,15 +66,32 @@ Hero* GermanFactory::Leader() {
 }
 
 
-AbstractFactory* getFactory (const std::string& fraction) {
+FactoryCacher factory_cacher;
+
+
+AbstractFactory* FactoryCacher::getFactory(const std::string& fraction) {
 	if (fraction == "France") {
-		return new FrenchFactory();
+		if (french_factory_ == 0) {
+			french_factory_ = new FrenchFactory();
+		}
+		return french_factory_;
 	} else if (fraction == "England") {
-		return new EnglishFactory();
+		if (english_factory_ == 0) {
+			english_factory_ = new EnglishFactory();
+		}
+		return english_factory_;
 	} else if (fraction == "Germany") {
-		return new GermanFactory();
+		if (german_factory_ == 0) {
+			german_factory_ = new GermanFactory();
+		}
+		return german_factory_;
 	} else {
 		throw std::runtime_error ("unknown fraction");
 	}
+}
+
+
+AbstractFactory* getFactory (const std::string& fraction) {
+	return factory_cacher.getFactory(fraction);
 }
 

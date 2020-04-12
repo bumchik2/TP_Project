@@ -8,8 +8,8 @@
 
 
 int main () {
-	srand(time(0));
-	playGame();
-
+    srand(time(0));
+	Game game;
+	game.play();
 }
 

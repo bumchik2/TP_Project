@@ -12,6 +12,9 @@ add_executable(main
 	src/Soldier.cpp 
 	src/Units.cpp 
 	src/Heroes.cpp
+	src/Action.cpp
+	src/Gameplay.cpp
+	src/Army.cpp
 )
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/headers)

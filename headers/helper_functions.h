@@ -18,20 +18,12 @@ inline double randomDouble (double l = 0, double r = 1) {
 
 
 template<typename T>
-bool contains (const std::vector<T>& v, const T& target) {
-	for (unsigned i = 0; i < v.size(); ++i) {
-		if (v[i] == target) {
-			return true;
-		}
-	}
-	return false;
-}
-
-
-template<typename T>
 std::ostream& operator << (std::ostream& os, const std::vector<T>& v) {
 	for (unsigned i = 0; i < v.size(); ++i) {
-		os << v[i] << std::endl;
+		if (i != 0) {
+			os << ", ";
+		}
+		os << v[i];
 	}
 	return os;
 }
