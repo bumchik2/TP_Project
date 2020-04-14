@@ -78,18 +78,18 @@ std::string toString(unsigned a) {
 
 std::string Game::chooseSoldier_ () {
 	std::stringstream hint;
-	for (unsigned i = 0; i < UNIT_TYPES.size(); ++i) {
+	for (unsigned i = 0; i < unit_types_available_.size(); ++i) {
 		if (i != 0) {
 			hint << ", ";
 		}
-		hint << UNIT_TYPES[i] << " costs ";
-		hint << UC.at(UNIT_TYPES[i]).at("cost");
-		if (i + 1 == UNIT_TYPES.size()) {
+		hint << unit_types_available_[i] << " costs ";
+		hint << UC.at(unit_types_available_[i]).at("cost");
+		if (i + 1 == unit_types_available_.size()) {
 			hint << ".";
 		}
 	}
 	hint << " You have " << toString(player_money_) << " left.";
-	return chooseParameter("type of unit", UNIT_TYPES, hint.str());
+	return chooseParameter("type of unit", unit_types_available_, hint.str());
 }
 
 
@@ -105,8 +105,8 @@ void Game::buy_(const std::string& soldier_type) {
 
 void Game::choosePlayerArmy_() {
 	std::vector<int> unit_costs;
-	for (unsigned i = 0; i < UNIT_TYPES.size(); ++i) {
-		unit_costs.push_back(UC.at(UNIT_TYPES[i]).at("cost"));
+	for (unsigned i = 0; i < unit_types_available_.size(); ++i) {
+		unit_costs.push_back(UC.at(unit_types_available_[i]).at("cost"));
 	}
 	int min_cost = unit_costs[0];
 	for (unsigned i = 0; i < unit_costs.size(); ++i) {
@@ -121,7 +121,7 @@ void Game::choosePlayerArmy_() {
 
 void Game::chooseEnemyArmy_() {
 	for (unsigned i = 0; i < 3; ++i) {
-		std::string soldier_type = UNIT_TYPES[rand() % UNIT_TYPES.size()];
+		std::string soldier_type = unit_types_available_[rand() % unit_types_available_.size()];
 		enemy_army_.addSoldier(enemy_factory_->createUnit(soldier_type));
 	}
 }

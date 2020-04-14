@@ -4,17 +4,22 @@
 #include "fractions.h"
 #include "army_factory.h"
 #include "army.h"
+#include "units_characteristics.h"
 
 
 #include <unistd.h>
 #include <vector>
 #include <string>
+#include <iostream>
 
 
 class Game {
 public:
 	Game(): player_fraction_(chooseFraction_()), player_factory_(getFactory(player_fraction_)),
 			enemy_fraction_(chooseRandomFraction_({player_fraction_})), enemy_factory_(getFactory(enemy_fraction_)) {
+		for (auto it : UC) {
+			unit_types_available_.push_back(it.first);
+		}
 		choosePlayerArmy_();
 		chooseEnemyArmy_();
 	}
@@ -40,6 +45,8 @@ private:
 
 	Army player_army_;
 	Army enemy_army_;
+
+	std::vector<std::string> unit_types_available_;
 };
 
 
