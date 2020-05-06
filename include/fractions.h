@@ -8,8 +8,8 @@
 
 
 const std::vector<std::string> FRACTIONS = {
-	"France",
-	"England",
-	"Germany"
+  "France",
+  "England",
+  "Germany"
 };
 

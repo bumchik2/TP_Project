@@ -17,4 +17,4 @@ add_executable(main
 	src/Army.cpp
 )
 
-target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/headers)
+target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
