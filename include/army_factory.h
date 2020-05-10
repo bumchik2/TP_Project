@@ -3,6 +3,8 @@
 
 #include "units.h"
 #include "heroes.h"
+#include "observer.h"
+
 #include <vector>
 #include <string>
 
@@ -13,11 +15,13 @@ public:
   virtual ~AbstractFactory();
 
   Soldier* createUnit (const std::string& unit_type);
-  virtual Hero* Leader() = 0;
+  Hero* Leader();
+  Listener* Subscriber();
 
 protected:
   std::vector<Soldier*> units_;
   std::string fraction_;
+  Hero* leader_ = 0;
 };
 
 
@@ -25,9 +29,6 @@ class FrenchFactory : public AbstractFactory {
 public:
   FrenchFactory();
   ~FrenchFactory();
-  Hero* Leader() override;
-private:
-  Hero* leader_;
 };
 
 
@@ -35,9 +36,6 @@ class EnglishFactory : public AbstractFactory {
 public:
   EnglishFactory();
   ~EnglishFactory();
-  Hero* Leader() override;
-private:
-  Hero* leader_;
 };
 
 
@@ -45,15 +43,13 @@ class GermanFactory : public AbstractFactory {
 public:
   GermanFactory();
   ~GermanFactory();
-  Hero* Leader() override;
-private:
-  Hero* leader_;
 };
 
 
 class FactoryCacher {
 public:
   AbstractFactory* getFactory(const std::string& fraction);
+  ~FactoryCacher();
 private:
   FrenchFactory* french_factory_ = 0;
   EnglishFactory* english_factory_ = 0;

@@ -13,18 +13,44 @@
 #include <iostream>
 
 
+class Command;
+class Game;
+
+
+class CommandExecutor {
+public:
+	CommandExecutor(Game* game): game(game) { }
+	void setCommand(Command* new_command);
+	void executeCommand();
+private:
+	Command* command = 0;
+	Game* game;
+};
+
+
 class Game {
 public:
-  Game(): player_fraction_(chooseFraction_()), player_factory_(getFactory(player_fraction_)),
-      enemy_fraction_(chooseRandomFraction_({player_fraction_})), enemy_factory_(getFactory(enemy_fraction_)) {
-    for (auto it : UC) {
+  Game(): player_fraction(chooseFraction_()), player_factory(getFactory(player_fraction)) {
+    for (const auto& it : UC) {
       unit_types_available_.push_back(it.first);
     }
     choosePlayerArmy_();
-    chooseEnemyArmy_();
   }
+
+  ~Game() { delete command_executor; }
+
   void play();
+
+  std::string player_fraction;
+  AbstractFactory* player_factory;
+  std::string enemy_fraction;
+  AbstractFactory* enemy_factory;
+
+  Army player_army;
+  Army enemy_army;
+
 private:
+
   static std::string chooseFraction_();
   static std::string chooseRandomFraction_(const std::vector<std::string>& banned_choices);
 
@@ -36,19 +62,41 @@ private:
 
   void updateParameters_();
 
-  std::string player_fraction_;
-  AbstractFactory* player_factory_;
-  std::string enemy_fraction_;
-  AbstractFactory* enemy_factory_;
-
   int player_money_ = 500;
 
-  Army player_army_;
-  Army enemy_army_;
-
   std::vector<std::string> unit_types_available_;
+
+  CommandExecutor* command_executor = new CommandExecutor(this);
 };
 
 
+class Command {
+public:
+  Command(Game* game): game(game) { }
+  virtual ~Command() = default;
+  virtual void execute() { };
+protected:
+  Game* game;
+
+  friend class CommandExecutor;
+};
+
+class FightCommand : public Command {
+public:
+  FightCommand(Game* game): Command(game) { }
+  void execute() override;
+};
+
+class RecoverCommand : public Command {
+public:
+  RecoverCommand(Game* game): Command(game) { }
+  void execute() override;
+};
+
+class TrainCommand : public Command {
+public:
+  TrainCommand(Game* game): Command(game) { }
+  void execute() override;
+};
 
 

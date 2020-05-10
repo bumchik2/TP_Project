@@ -18,7 +18,7 @@ Soldier* AbstractFactory::createUnit (const std::string& unit_type) {
   } else if (unit_type == "swordsman") {
     new_soldier = new Swordsman (fraction_);
   } else {
-    // incorrect unit_type
+    throw std::invalid_argument("incorrect unit type");
   }
   if (new_soldier != 0) {
     units_.push_back(new_soldier);
@@ -32,42 +32,52 @@ AbstractFactory::~AbstractFactory () {
   }
 }
 
+Hero* AbstractFactory::Leader() { return dynamic_cast<Hero*>(leader_); }
 
-FrenchFactory::FrenchFactory() : AbstractFactory("France"), leader_(new Napoleon()) { }
+Listener* AbstractFactory::Subscriber() { return dynamic_cast<Listener*>(leader_); }
+
+
+FrenchFactory::FrenchFactory() : AbstractFactory("France") {
+  leader_ = new Napoleon();
+}
 
 FrenchFactory::~FrenchFactory() {
   delete leader_;
 }
 
-Hero* FrenchFactory::Leader() {
-  return leader_;
+
+EnglishFactory::EnglishFactory() : AbstractFactory("England") {
+  leader_ = new Elizabeth();
 }
-
-
-EnglishFactory::EnglishFactory() : AbstractFactory("England"), leader_(new Elizabeth()) { }
 
 EnglishFactory::~EnglishFactory() {
   delete leader_;
 }
 
-Hero* EnglishFactory::Leader() {
-  return leader_;
+
+GermanFactory::GermanFactory() : AbstractFactory("Germany") {
+  leader_ = new Bismarck();
 }
-
-
-GermanFactory::GermanFactory() : AbstractFactory("Germany"), leader_(new Bismarck()) { }
 
 GermanFactory::~GermanFactory() {
   delete leader_;
 }
 
-Hero* GermanFactory::Leader() {
-  return leader_;
-}
 
 
 FactoryCacher factory_cacher;
 
+FactoryCacher::~FactoryCacher() {
+  if (french_factory_ != 0) {
+    delete french_factory_;
+  }
+  if (german_factory_ != 0) {
+    delete german_factory_;
+  }
+  if (english_factory_ != 0) {
+    delete english_factory_;
+  }
+}
 
 AbstractFactory* FactoryCacher::getFactory(const std::string& fraction) {
   if (fraction == "France") {
